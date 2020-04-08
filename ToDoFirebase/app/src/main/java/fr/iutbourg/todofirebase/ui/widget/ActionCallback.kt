@@ -5,4 +5,5 @@ import fr.iutbourg.todofirebase.data.model.Todo
 interface ActionCallback {
     fun editTodo(position: Int, todo: Todo)
     fun deleteTodo(todo: Todo)
+    fun addTodo(name: String)
 }

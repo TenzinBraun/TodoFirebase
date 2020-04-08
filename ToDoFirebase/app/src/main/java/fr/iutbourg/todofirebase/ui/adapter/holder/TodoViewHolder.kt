@@ -5,8 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import fr.iutbourg.todofirebase.R
+import fr.iutbourg.todofirebase.data.model.Todo
+import kotlinx.android.synthetic.main.todo_view_holder.view.*
 
 class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun bindData(todo: Todo) {
+        itemView.nameTask.text = todo.name
+    }
 
 
     companion object {

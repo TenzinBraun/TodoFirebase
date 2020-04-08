@@ -18,6 +18,7 @@ class TodoAdapter(private val callback: ActionCallback) : RecyclerView.Adapter<T
     override fun getItemCount(): Int = todoList.size
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
+        holder.bindData(todoList[position])
         holder.itemView.setOnLongClickListener {
             it.containerAction.visibility = VISIBLE
             true
