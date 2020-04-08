@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import fr.iutbourg.todofirebase.R
 import fr.iutbourg.todofirebase.data.model.Todo
 import fr.iutbourg.todofirebase.ui.adapter.TodoAdapter
 import fr.iutbourg.todofirebase.ui.dialog.TodoAddElementDialog
+import fr.iutbourg.todofirebase.ui.viewmodel.MainViewModel
 import fr.iutbourg.todofirebase.ui.widget.ActionCallback
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -20,6 +24,8 @@ class MainFragment : Fragment(), ActionCallback {
     private lateinit var adapter: TodoAdapter
     private var listTodo =  mutableListOf<Todo>()
     private lateinit var database: DatabaseReference
+    private val db = Firebase.database
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +36,9 @@ class MainFragment : Fragment(), ActionCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity?.run {
-            viewModel = ViewModelProvider(this, MainViewModel).get()
+            viewModel = ViewModelProvider(this,
+                MainViewModel
+            ).get()
         } ?: throw IllegalStateException("Invalid Activity")
     }
 
@@ -38,9 +46,11 @@ class MainFragment : Fragment(), ActionCallback {
         super.onViewCreated(view, savedInstanceState)
         adapter = TodoAdapter(this)
         database = Firebase.database.reference
+
+        database.setValue("Hello World")
         addNewElement.setOnClickListener {
             val dialog = TodoAddElementDialog(this)
-            dialog.show()
+//            dialog.show()
         }
 
     }

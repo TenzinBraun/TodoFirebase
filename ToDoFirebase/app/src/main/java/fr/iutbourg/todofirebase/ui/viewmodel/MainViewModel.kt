@@ -1,4 +1,4 @@
-package fr.iutbourg.todofirebase.ui.main
+package fr.iutbourg.todofirebase.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
