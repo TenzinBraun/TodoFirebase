@@ -3,10 +3,7 @@ package fr.iutbourg.todofirebase.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import fr.iutbourg.todofirebase.data.model.Todo
 
 
@@ -16,16 +13,17 @@ class MainViewModel : ViewModel() {
     fun loadInformationFromFirebase(): MutableList<Todo> {
         val ref = FirebaseDatabase.getInstance().reference.child("tasks")
         ref.addListenerForSingleValueEvent(
-            object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val value = dataSnapshot.value.toString()
-                    todoList = collectPhoneNumbers(dataSnapshot.value as Map<*, *>?)
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
                 }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d("FireBaseError", "Got Error while loading data")
+                override fun onDataChange(snapchot: DataSnapshot) {
+                    Log.d("Firebase", "firebase")
                 }
-            })
+
+            }
+        )
+
         return todoList
     }
 

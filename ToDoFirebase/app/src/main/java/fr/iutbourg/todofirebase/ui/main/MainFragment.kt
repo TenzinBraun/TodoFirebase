@@ -44,9 +44,6 @@ class MainFragment : Fragment(), ActionCallback {
         adapter = TodoAdapter(this)
         view.reclycerViewTodo.adapter = adapter
         view.reclycerViewTodo.layoutManager = LinearLayoutManager(requireContext())
-        if(db.key != "tasks"){
-            db.setValue("tasks")
-        }
         listTodo = viewModel.loadInformationFromFirebase()
         addNewElement.setOnClickListener {
             val dialog = TodoAddElementDialog(this, requireActivity())
@@ -64,6 +61,7 @@ class MainFragment : Fragment(), ActionCallback {
         adapter.submitList(listTodo)
         val ref =  db.child("tasks")
         ref.setValue(listTodo)
+        ref.push()
     }
 
     override fun addTodo(name: String) {
@@ -71,6 +69,7 @@ class MainFragment : Fragment(), ActionCallback {
         adapter.submitList(listTodo)
         val ref =  db.child("tasks")
         ref.setValue(listTodo)
+        ref.push()
     }
 
 }
