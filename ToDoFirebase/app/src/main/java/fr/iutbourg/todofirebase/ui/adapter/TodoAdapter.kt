@@ -1,5 +1,6 @@
 package fr.iutbourg.todofirebase.ui.adapter
 
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -26,10 +27,12 @@ class TodoAdapter(private val callback: ActionCallback) : RecyclerView.Adapter<T
 
         holder.itemView.editTodo.setOnClickListener {
             callback.editTodo(position, todoList[position])
+            it.containerAction.visibility = GONE
         }
 
         holder.itemView.deleteTodo.setOnClickListener {
             callback.deleteTodo(todoList[position])
+            it.containerAction.visibility = GONE
         }
 
     }
