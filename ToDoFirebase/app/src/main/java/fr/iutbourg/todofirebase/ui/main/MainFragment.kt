@@ -5,13 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import fr.iutbourg.todofirebase.R
 import fr.iutbourg.todofirebase.data.model.Todo
 import fr.iutbourg.todofirebase.ui.adapter.TodoAdapter
@@ -19,6 +16,8 @@ import fr.iutbourg.todofirebase.ui.dialog.TodoAddElementDialog
 import fr.iutbourg.todofirebase.ui.viewmodel.MainViewModel
 import fr.iutbourg.todofirebase.ui.widget.ActionCallback
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.main_fragment.view.*
+import java.text.FieldPosition
 
 class MainFragment : Fragment(), ActionCallback {
 
@@ -48,6 +47,8 @@ class MainFragment : Fragment(), ActionCallback {
         super.onViewCreated(view, savedInstanceState)
         adapter = TodoAdapter(this)
 
+        view.reclycerViewTodo.adapter = adapter
+
         db.setValue("Hello World")
         addNewElement.setOnClickListener {
             val dialog = TodoAddElementDialog(this, requireActivity())
@@ -56,8 +57,8 @@ class MainFragment : Fragment(), ActionCallback {
 
     }
 
-    override fun editTodo(todo: Todo) {
-        TODO("Not yet implemented")
+    override fun editTodo(position: Int, todo: Todo) {
+        listTodo[position].name = todo.name
     }
 
     override fun deleteTodo(todo: Todo) {

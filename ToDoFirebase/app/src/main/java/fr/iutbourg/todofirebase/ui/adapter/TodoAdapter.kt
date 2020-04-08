@@ -24,7 +24,7 @@ class TodoAdapter(private val callback: ActionCallback) : RecyclerView.Adapter<T
         }
 
         holder.itemView.editTodo.setOnClickListener {
-            callback.editTodo(todoList[position])
+            callback.editTodo(position, todoList[position])
         }
 
         holder.itemView.deleteTodo.setOnClickListener {
