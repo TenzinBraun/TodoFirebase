@@ -54,15 +54,16 @@ class MainFragment : Fragment(), ActionCallback {
             val dialog = TodoAddElementDialog(this, requireActivity())
             dialog.show()
         }
-
     }
 
     override fun editTodo(position: Int, todo: Todo) {
         listTodo[position].name = todo.name
+        adapter.submitList(listTodo)
     }
 
     override fun deleteTodo(todo: Todo) {
         listTodo.remove(todo)
+        adapter.submitList(listTodo)
     }
 
 }

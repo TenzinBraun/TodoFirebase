@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.todo_view_holder.view.*
 
 class TodoAdapter(private val callback: ActionCallback) : RecyclerView.Adapter<TodoViewHolder>() {
 
-    val todoList = emptyList<Todo>()
+    private var todoList = emptyList<Todo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder =
         TodoViewHolder.create(parent)
@@ -31,6 +31,11 @@ class TodoAdapter(private val callback: ActionCallback) : RecyclerView.Adapter<T
             callback.deleteTodo(todoList[position])
         }
 
+    }
+
+    fun submitList(listTodo: List<Todo>) {
+        this.todoList = listTodo
+        notifyDataSetChanged()
     }
 
 }
