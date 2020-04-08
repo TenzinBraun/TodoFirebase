@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import fr.iutbourg.todofirebase.R
@@ -24,7 +25,7 @@ class MainFragment : Fragment(), ActionCallback {
     private lateinit var adapter: TodoAdapter
     private var listTodo =  mutableListOf<Todo>()
     private lateinit var database: DatabaseReference
-    private val db = Firebase.database
+    private val db = FirebaseDatabase.getInstance().reference
 
 
 
@@ -45,9 +46,8 @@ class MainFragment : Fragment(), ActionCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TodoAdapter(this)
-        database = Firebase.database.reference
 
-        database.setValue("Hello World")
+        db.setValue("Hello World")
         addNewElement.setOnClickListener {
             val dialog = TodoAddElementDialog(this)
 //            dialog.show()
