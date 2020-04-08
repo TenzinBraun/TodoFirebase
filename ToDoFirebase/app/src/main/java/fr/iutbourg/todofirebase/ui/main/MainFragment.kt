@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.google.firebase.database.DatabaseReference
@@ -49,8 +50,8 @@ class MainFragment : Fragment(), ActionCallback {
 
         db.setValue("Hello World")
         addNewElement.setOnClickListener {
-            val dialog = TodoAddElementDialog(this)
-//            dialog.show()
+            val dialog = TodoAddElementDialog(this, requireActivity())
+            dialog.show()
         }
 
     }
