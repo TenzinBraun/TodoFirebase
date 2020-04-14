@@ -8,15 +8,30 @@
     tools:context=".ui.main.MainFragment">
 
     <Button
+        android:id="@+id/sortTodoList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:text="Trier"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
         android:id="@+id/addNewElement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:background="@color/colorAccent"
+        android:layout_margin="16dp"
         android:padding="16dp"
         android:text="Ajouter un élément"
         android:layout_marginBottom="24dp"/>
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reclycerViewTodo"

@@ -19,6 +19,7 @@ class TodoAdapter(private val callback: ActionCallback) : RecyclerView.Adapter<T
     override fun getItemCount(): Int = todoList.size
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
+        var itemTodo = todoList[position]
         holder.bindData(todoList[position])
         holder.itemView.setOnLongClickListener {
             it.containerAction.visibility = VISIBLE
@@ -26,13 +27,29 @@ class TodoAdapter(private val callback: ActionCallback) : RecyclerView.Adapter<T
         }
 
         holder.itemView.editTodo.setOnClickListener {
-            callback.editTodo(position, todoList[position])
-            it.containerAction.visibility = GONE
+            holder.itemView.containerAction.visibility = GONE
+            holder.itemView.editTodoText.visibility = VISIBLE
+            holder.itemView.containerEdit.visibility = VISIBLE
+            holder.itemView.nameTask.visibility = GONE
         }
 
         holder.itemView.deleteTodo.setOnClickListener {
             callback.deleteTodo(todoList[position])
-            it.containerAction.visibility = GONE
+            holder.itemView.containerAction.visibility = GONE
+        }
+
+        holder.itemView.validateEdit.setOnClickListener{
+            itemTodo.name = holder.itemView.editTodoText.text.toString()
+            callback.editTodo(position, itemTodo)
+            holder.itemView.editTodoText.visibility = GONE
+            holder.itemView.containerEdit.visibility = GONE
+            holder.itemView.nameTask.visibility = VISIBLE
+        }
+
+        holder.itemView.cancel.setOnClickListener{
+            holder.itemView.editTodoText.visibility = GONE
+            holder.itemView.containerEdit.visibility = GONE
+            holder.itemView.nameTask.visibility = VISIBLE
         }
 
     }

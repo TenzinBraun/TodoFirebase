@@ -5,36 +5,35 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.*
 import fr.iutbourg.todofirebase.data.model.Todo
+import fr.iutbourg.todofirebase.ui.widget.MyCallback
 
 
 class MainViewModel : ViewModel() {
     private var todoList = mutableListOf<Todo>()
+    lateinit var callback: MyCallback
 
-    fun loadInformationFromFirebase(): MutableList<Todo> {
-        val ref = FirebaseDatabase.getInstance().reference.child("tasks")
-        ref.addListenerForSingleValueEvent(
-            object : ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
-                }
-
-                override fun onDataChange(snapchot: DataSnapshot) {
-                    Log.d("Firebase", "firebase")
-                }
-
-            }
-        )
-
-        return todoList
-    }
-
-    private fun collectPhoneNumbers(map: Map<*, *>?): MutableList<Todo> {
+    private fun getTodo(map: Map<String, HashMap<String, Any>>?): MutableList<Todo> {
         val list = mutableListOf<Todo>()
         map?.let {
-            for ((_, value) in it.entries) {
-                list.add(value as Todo)
+            for ((key, value) in it.entries) {
+                list.add(Todo(key, value))
             }
         }
         return list
+    }
+
+    fun startListeningToAnyChange() {
+        val ref = FirebaseDatabase.getInstance().reference.child("tasks")
+        ref.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                todoList = getTodo(snapshot.value as Map<String, HashMap<String, Any>>?)
+                callback.notifyAllEntries(todoList)
+            }
+        })
     }
 
 
