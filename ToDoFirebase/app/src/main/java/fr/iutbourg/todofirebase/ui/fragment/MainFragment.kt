@@ -17,12 +17,11 @@ import fr.iutbourg.todofirebase.ui.adapter.TodoAdapter
 import fr.iutbourg.todofirebase.ui.dialog.TodoAddElementDialog
 import fr.iutbourg.todofirebase.ui.viewmodel.MainViewModel
 import fr.iutbourg.todofirebase.ui.widget.ActionCallback
-import fr.iutbourg.todofirebase.ui.widget.MyCallback
-import kotlinx.android.synthetic.main.main_fragment.*
+import fr.iutbourg.todofirebase.ui.widget.EntriesCallback
 import kotlinx.android.synthetic.main.main_fragment.view.*
 import java.util.regex.Pattern
 
-class MainFragment : Fragment(), ActionCallback, MyCallback {
+class MainFragment : Fragment(), ActionCallback, EntriesCallback {
 
     private var ascending: Boolean = false
     private lateinit var viewModel: MainViewModel
@@ -39,12 +38,13 @@ class MainFragment : Fragment(), ActionCallback, MyCallback {
                 this,
                 MainViewModel
             ).get()
-        } ?: throw IllegalStateException("Invalid Activity")
+            } ?: throw IllegalStateException("Invalid Activity")
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setHasOptionsMenu(true)
 
         viewModel.callback = this
@@ -64,7 +64,6 @@ class MainFragment : Fragment(), ActionCallback, MyCallback {
             this.setTitle(R.string.app_toolbar_title)
             this.setDisplayHomeAsUpEnabled(false)
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,8 +72,6 @@ class MainFragment : Fragment(), ActionCallback, MyCallback {
         val searchMenuItem = menu.findItem(R.id.searchItem)
         val filterMenuItem = menu.findItem(R.id.sortItem)
         val searchMenuView = searchMenuItem.actionView as SearchView
-
-
 
         filterMenuItem.setOnMenuItemClickListener {
             ascending = if (!ascending) {
@@ -106,6 +103,9 @@ class MainFragment : Fragment(), ActionCallback, MyCallback {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let {
+                        findTodoWith(newText).run {
+                            todoAdapter.submitList(this)
+                    }
                     return true
                 }
                 return false
@@ -129,7 +129,7 @@ class MainFragment : Fragment(), ActionCallback, MyCallback {
     }
 
     override fun editTodo(position: Int, todo: Todo) {
-        db.child("tasks").child(todo.key!!).setValue(Todo(null, todo.name, todo.check))
+        db.child("tasks").child(todo.key!!).setValue(Todo(null, todo.name, todo.check, System.currentTimeMillis()))
     }
 
     override fun deleteTodo(todo: Todo) {
@@ -137,7 +137,7 @@ class MainFragment : Fragment(), ActionCallback, MyCallback {
     }
 
     override fun addTodo(name: String) {
-        db.child("tasks").push().setValue(Todo(null, name, false))
+        db.child("tasks").push().setValue(Todo(null, name, false, System.currentTimeMillis()))
     }
 
     override fun notifyAllEntries(todoList: MutableList<Todo>) {

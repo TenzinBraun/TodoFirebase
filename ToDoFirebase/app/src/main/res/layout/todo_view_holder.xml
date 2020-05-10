@@ -15,6 +15,17 @@
         android:textSize="18sp"
         android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/dateTimeCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameTask"
+        android:text="Created at :"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
+
     <EditText
         android:id="@+id/editTodoText"
         android:layout_width="wrap_content"
@@ -56,9 +67,9 @@
 
         <Button
             android:id="@+id/validateEdit"
-            android:text="Valider"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Valider" />
         <Button
             android:id="@+id/cancel"
             android:layout_toRightOf="@+id/validateEdit"
